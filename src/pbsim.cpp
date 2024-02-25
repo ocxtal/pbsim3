@@ -1789,10 +1789,10 @@ int simulate_by_sample() {
           read_offset ++;
 
           while ((ref_offset < mut.len) && (read_offset < mut.len)) {
-            hp = mut.hp[ref_offset-1];
+            hp = (ref_offset == 0) ? 1 : mut.hp[ref_offset-1];
             rand_value = rand() % 1000000;
             qc_value = (int)mut.qc[read_offset-1] - 33;
-            if (rand_value < mut.del_thre[qc_value] * genome.hp_del_bias[hp]) {
+            if (rand_value < mut.del_thre[qc_value] * genome.hp_del_bias[(hp > 10) ? 10 : hp]) {
               sim.res_del_num ++;
               mut.maf_seq[maf_offset] = '-';
               mut.maf_ref_seq[maf_offset] = mut.seq[ref_offset];
@@ -2239,10 +2239,10 @@ int simulate_by_qshmm() {
         read_offset ++;
 
         while (ref_offset < mut.len) {
-          hp = mut.hp[ref_offset-1];
+          hp = (ref_offset == 0) ? 1 : mut.hp[ref_offset-1];
           rand_value = rand() % 1000000;
           qc_value = (int)mut.qc[read_offset-1] - 33;
-          if (rand_value < mut.del_thre[qc_value] * genome.hp_del_bias[hp]) {
+          if (rand_value < mut.del_thre[qc_value] * genome.hp_del_bias[(hp > 10) ? 10 : hp]) {
             sim.res_del_num ++;
             mut.maf_seq[maf_offset] = '-';
             mut.maf_ref_seq[maf_offset] = mut.seq[ref_offset];
@@ -2875,10 +2875,10 @@ int simulate_by_qshmm_trans() {
             read_offset ++;
 
             while (ref_offset < mut.len) {
-              hp = mut.hp[ref_offset-1];
+              hp = (ref_offset == 0) ? 1 : mut.hp[ref_offset-1];
               rand_value = rand() % 1000000;
               qc_value = (int)mut.qc[read_offset-1] - 33;
-              if (rand_value < mut.del_thre[qc_value] * transcript.hp_del_bias[hp]) {
+              if (rand_value < mut.del_thre[qc_value] * transcript.hp_del_bias[(hp > 10) ? 10 : hp]) {
                 sim.res_del_num ++;
                 mut.maf_seq[maf_offset] = '-';
                 mut.maf_ref_seq[maf_offset] = mut.seq[ref_offset];
@@ -3399,10 +3399,10 @@ int simulate_by_qshmm_templ() {
           read_offset ++;
 
           while (ref_offset < templ.len) {
-            hp = templ.hp[ref_offset-1];
+            hp = (ref_offset == 0) ? 1 : templ.hp[ref_offset-1];
             rand_value = rand() % 1000000;
             qc_value = (int)mut.qc[read_offset-1] - 33;
-            if (rand_value < mut.del_thre[qc_value] * templ.hp_del_bias[hp]) {
+            if (rand_value < mut.del_thre[qc_value] * templ.hp_del_bias[(hp > 10) ? 10 : hp]) {
               sim.res_del_num ++;
               mut.maf_seq[maf_offset] = '-';
               mut.maf_ref_seq[maf_offset] = templ.seq[ref_offset];
@@ -3830,7 +3830,7 @@ int simulate_by_errhmm() {
             }
             hp = mut.hp[ref_offset];
             index = rand() % 1000 + 1;
-            if (index <= emis2del[mut.acc][state] * genome.hp_del_bias[hp]) {
+            if (index <= emis2del[mut.acc][state] * genome.hp_del_bias[(hp > 10) ? 10 : hp]) {
               index = 3;
             } else {
               if (err_rand_value_emis[mut.acc][state] == 0) {
@@ -3850,7 +3850,7 @@ int simulate_by_errhmm() {
             }
             hp = mut.hp[ref_offset];
             index = rand() % 1000 + 1;
-            if (index <= emis2del[errhmm.acc_min][state] * genome.hp_del_bias[hp]) {
+            if (index <= emis2del[errhmm.acc_min][state] * genome.hp_del_bias[(hp > 10) ? 10 : hp]) {
               index = 3;
             } else {
               if (err_rand_value_emis[errhmm.acc_min][state] == 0) {
@@ -3878,7 +3878,7 @@ int simulate_by_errhmm() {
             }
             hp = mut.hp[ref_offset];
             index = rand() % 1000 + 1;
-            if (index <= emis2del[errhmm.acc_max][state] * genome.hp_del_bias[hp]) {
+            if (index <= emis2del[errhmm.acc_max][state] * genome.hp_del_bias[(hp > 10) ? 10 : hp]) {
               index = 3;
             } else {
               if (err_rand_value_emis[errhmm.acc_max][state] == 0) {
@@ -4523,7 +4523,7 @@ int simulate_by_errhmm_trans() {
                 }
                 hp = mut.hp[ref_offset];
                 index = rand() % 1000 + 1;
-                if (index <= emis2del[mut.acc][state] * transcript.hp_del_bias[hp]) {
+                if (index <= emis2del[mut.acc][state] * transcript.hp_del_bias[(hp > 10) ? 10 : hp]) {
                   index = 3;
                 } else {
                   if (err_rand_value_emis[mut.acc][state] == 0) {
@@ -4543,7 +4543,7 @@ int simulate_by_errhmm_trans() {
                 }
                 hp = mut.hp[ref_offset];
                 index = rand() % 1000 + 1;
-                if (index <= emis2del[errhmm.acc_min][state] * transcript.hp_del_bias[hp]) {
+                if (index <= emis2del[errhmm.acc_min][state] * transcript.hp_del_bias[(hp > 10) ? 10 : hp]) {
                   index = 3;
                 } else {
                   if (err_rand_value_emis[errhmm.acc_min][state] == 0) {
@@ -4571,7 +4571,7 @@ int simulate_by_errhmm_trans() {
                 }
                 hp = mut.hp[ref_offset];
                 index = rand() % 1000 + 1;
-                if (index <= emis2del[errhmm.acc_max][state] * transcript.hp_del_bias[hp]) {
+                if (index <= emis2del[errhmm.acc_max][state] * transcript.hp_del_bias[(hp > 10) ? 10 : hp]) {
                   index = 3;
                 } else {
                   if (err_rand_value_emis[errhmm.acc_max][state] == 0) {
@@ -5096,7 +5096,7 @@ int simulate_by_errhmm_templ() {
               }
               hp = templ.hp[ref_offset];
               index = rand() % 1000 + 1;
-              if (index <= emis2del[mut.acc][state] * templ.hp_del_bias[hp]) {
+              if (index <= emis2del[mut.acc][state] * templ.hp_del_bias[(hp > 10) ? 10 : hp]) {
                 index = 3;
               } else {
                 if (err_rand_value_emis[mut.acc][state] == 0) {
@@ -5116,7 +5116,7 @@ int simulate_by_errhmm_templ() {
               }
               hp = templ.hp[ref_offset];
               index = rand() % 1000 + 1;
-              if (index <= emis2del[errhmm.acc_min][state] * templ.hp_del_bias[hp]) {
+              if (index <= emis2del[errhmm.acc_min][state] * templ.hp_del_bias[(hp > 10) ? 10 : hp]) {
                 index = 3;
               } else {
                 if (err_rand_value_emis[errhmm.acc_min][state] == 0) {
@@ -5144,7 +5144,7 @@ int simulate_by_errhmm_templ() {
               }
               hp = templ.hp[ref_offset];
               index = rand() % 1000 + 1;
-              if (index <= emis2del[errhmm.acc_max][state] * templ.hp_del_bias[hp]) {
+              if (index <= emis2del[errhmm.acc_max][state] * templ.hp_del_bias[(hp > 10) ? 10 : hp]) {
                 index = 3;
               } else {
                 if (err_rand_value_emis[errhmm.acc_max][state] == 0) {
