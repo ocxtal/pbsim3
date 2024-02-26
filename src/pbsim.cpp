@@ -1808,11 +1808,6 @@ int simulate_by_sample() {
         mut.maf_seq[maf_offset] = '\0';
         mut.maf_ref_seq[maf_offset] = '\0';
 
-        if (mut.seq_strand == '-') {
-          revcomp(mut.maf_seq);
-          revcomp(mut.maf_ref_seq);
-        }
-
         mut.seq_left = mut.offset + 1;
         mut.seq_right = mut.offset + ref_offset;
 
@@ -2257,11 +2252,6 @@ int simulate_by_qshmm() {
       mut.read_seq[read_offset] = '\0';
       mut.maf_seq[maf_offset] = '\0';
       mut.maf_ref_seq[maf_offset] = '\0';
-
-      if (mut.seq_strand == '-') {
-        revcomp(mut.maf_seq);
-        revcomp(mut.maf_ref_seq);
-      }
 
       len = strlen(mut.read_seq);
       sim.res_len_total += len;
@@ -2893,11 +2883,6 @@ int simulate_by_qshmm_trans() {
           mut.read_seq[read_offset] = '\0';
           mut.maf_seq[maf_offset] = '\0';
           mut.maf_ref_seq[maf_offset] = '\0';
-
-          if (mut.seq_strand == '-') {
-            revcomp(mut.maf_seq);
-            revcomp(mut.maf_ref_seq);
-          }
 
           len = strlen(mut.read_seq);
           sim.res_len_total += len;
@@ -3949,11 +3934,6 @@ int simulate_by_errhmm() {
       mut.maf_seq[maf_offset] = '\0';
       mut.maf_ref_seq[maf_offset] = '\0';
 
-      if (mut.seq_strand == '-') {
-        revcomp(mut.maf_seq);
-        revcomp(mut.maf_ref_seq);
-      }
-
       len = strlen(mut.read_seq);
       sim.res_len_total += len;
 
@@ -4641,11 +4621,6 @@ int simulate_by_errhmm_trans() {
           mut.read_seq[read_offset] = '\0';
           mut.maf_seq[maf_offset] = '\0';
           mut.maf_ref_seq[maf_offset] = '\0';
-
-          if (mut.seq_strand == '-') {
-            revcomp(mut.maf_seq);
-            revcomp(mut.maf_ref_seq);
-          }
 
           len = strlen(mut.read_seq);
           sim.res_len_total += len;
